@@ -21,16 +21,14 @@ module TestBench;
   `define OPDIV 2'b11
 
   initial begin
-    a = 0;
-    b = 0;
     op = `OPMUL;
-#10
     a = 6'b011110;
     b = 6'b010001;
-    op = `OPDIV;
-#10
+#100
     a = 6'b011110;
     b = 6'b000001;
-    op = `OPDIV;
+#100
+    a = 6'b100000;
+    b = 6'b010000;
   end
 endmodule
