@@ -1,0 +1,48 @@
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+
+# Quartus II 64-Bit Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+# File: C:\Users\silvernegi\Documents\dsdl\lab1\dsdl_lab1_assignments.csv
+# Generated on: Thu Apr 21 19:16:37 2016
+
+Status,From,To,Assignment Name,Value,Enabled,Entity,Comment,Tag
+Ok,,ledg[8],Location,PIN_AC14,Yes,,,
+Ok,,ledr[17],Location,PIN_AJ7,Yes,,,
+Ok,,ledr[16],Location,PIN_AD8,Yes,,,
+Ok,,ledr[6],Location,PIN_AJ3,Yes,,,
+Ok,,ledr[7],Location,PIN_AJ2,Yes,,,
+Ok,,ledr[8],Location,PIN_AH3,Yes,,,
+Ok,,ledr[9],Location,PIN_AD14,Yes,,,
+Ok,,ledr[10],Location,PIN_AC13,Yes,,,
+Ok,,ledr[11],Location,PIN_AB13,Yes,,,
+Ok,,ledr[12],Location,PIN_AC12,Yes,,,
+Ok,,ledr[13],Location,PIN_AB12,Yes,,,
+Ok,,ledr[14],Location,PIN_AC11,Yes,,,
+Ok,,ledr[15],Location,PIN_AD9,Yes,,,
+Ok,,sw[0],Location,PIN_AA23,Yes,,,
+Ok,,sw[1],Location,PIN_AB26,Yes,,,
+Ok,,sw[2],Location,PIN_AB25,Yes,,,
+Ok,,sw[6],Location,PIN_AC23,Yes,,,
+Ok,,sw[7],Location,PIN_AD25,Yes,,,
+Ok,,sw[8],Location,PIN_AD24,Yes,,,
+Ok,,sw[9],Location,PIN_AE27,Yes,,,
+Ok,,sw[10],Location,PIN_W5,Yes,,,
+Ok,,sw[11],Location,PIN_V10,Yes,,,
+Ok,,sw[12],Location,PIN_U9,Yes,,,
+Ok,,sw[13],Location,PIN_T9,Yes,,,
+Ok,,sw[14],Location,PIN_L5,Yes,,,
+Ok,,sw[15],Location,PIN_L4,Yes,,,
+Ok,,sw[16],Location,PIN_L7,Yes,,,
+Ok,,sw[17],Location,PIN_L8,Yes,,,
+,<<new>>,<<new>>,<<new>>,,,,,

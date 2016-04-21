@@ -1,6 +1,7 @@
-module TopLevel(sw, ledr);
+module TopLevel(sw, ledr, ledg);
   input  [17:0] sw;
   output [17:0] ledr;
+  output [8:0]  ledg;
 
   wire [5:0] a_in, b_in;
   wire [1:0] op_in;
@@ -13,6 +14,8 @@ module TopLevel(sw, ledr);
 
   wire [11:0] c_out;
   wire overflow_out;
+
+  assign ledg[8] = overflow_out;
 
   ALU alu(
     .a_in(a_in),

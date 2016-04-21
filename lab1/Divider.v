@@ -6,7 +6,7 @@ module Divider(a_in, b_in, c_out);
   assign c_out = {remainder, quotient};
 
   reg [5:0] accum;
-  integer i;
+  integer msb, i;
 
   always@(a_in, b_in) begin
     // assumes a_in and b_in are both positive
@@ -15,20 +15,23 @@ module Divider(a_in, b_in, c_out);
       quotient = 6'bx;
     end
     else begin
-      if (b_in[4]) i = 0;
-      else if (b_in[3]) i = 1;
-      else if (b_in[2]) i = 2;
-      else if (b_in[1]) i = 3;
-      else if (b_in[0]) i = 4;
-      accum = b_in << i;
+      if (b_in[4]) msb = 0;
+      else if (b_in[3]) msb = 1;
+      else if (b_in[2]) msb = 2;
+      else if (b_in[1]) msb = 3;
+      else if (b_in[0]) msb = 4;
+      else msb = 0;
+      accum = b_in << msb;
       remainder = a_in;
       quotient = 6'b0;
-      for (; i >= 0; i = i - 1) begin
-        if (remainder >= accum) begin
-          remainder = remainder - accum;
-          quotient = quotient + (1 << i);
+      for (i = 4; i >= 0; i = i - 1) begin
+        if (i <= msb) begin
+          if (remainder >= accum) begin
+            remainder = remainder - accum;
+            quotient = quotient + (1 << i);
+          end
+          accum = accum >> 1;
         end
-        accum = accum >> 1;
       end
     end
   end
