@@ -1,4 +1,4 @@
-module seg7_integer(a_in , s_out);
+module Seg7_integer(a_in , s_out);
   input [3:0] a_in;
   output [7:0] s_out;
 
@@ -21,7 +21,7 @@ module seg7_integer(a_in , s_out);
   end
 endmodule
 
-module seg7_sign(a_in , s_out);
+module Seg7_sign(a_in , s_out);
   input a_in;
   output [7:0] s_out;
 
@@ -41,23 +41,23 @@ module Seg7(c_in , s_out);
   input [16:0] c_in;
   output [39:0] s_out;
 
-  seg7_sign(
+  Seg7_sign seg7_1(
   	.a_in(c_in[16]),
   	.s_out(s_out[39:32])
   );
-  seg7_integer(
+  Seg7_integer seg7_2(
   	.a_in(c_in[15:12]),
   	.s_out(s_out[31:24])
   );
-  seg7_integer(
+  Seg7_integer seg7_3(
   	.a_in(c_in[11:8]),
   	.s_out(s_out[23:16])
   );
-  seg7_integer(
+  Seg7_integer seg7_4(
   	.a_in(c_in[7:4]),
   	.s_out(s_out[15:8])
   );
-  seg7_integer(
+  Seg7_integer seg7_5(
   	.a_in(c_in[3:0]),
   	.s_out(s_out[7:0])
   );
