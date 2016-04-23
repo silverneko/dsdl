@@ -4,8 +4,7 @@ module Mux1(a_in, b_in, s_in, s_out);
   input  s_in;
   output [WIDTH-1:0] s_out;
 
-  assign s_out = ({WIDTH{s_in}} & b_in) | ({WIDTH{~s_in}} & a_in);
-
+  assign s_out = s_in ? b_in : a_in;
 endmodule
 
 module Mux2(a_in, b_in, c_in, d_in, s_in, s_out);

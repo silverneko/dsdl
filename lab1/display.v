@@ -2,18 +2,18 @@ module Bin2dec(a_in , c_out);
   input [11:0] a_in;
   output [16:0] c_out; /*sign + 4 digits in dec.*/
 
-  integer decnum;
+  reg [11:0] decnum;
 
   reg [16:0] result;
   assign c_out = result;
 
   always@(a_in) begin
-    result = 0;
+    result = 17'b0;
     decnum = a_in;
 
-    if (decnum < 0) begin
+    if (a_in[11]) begin
     	result[16] = 1;
-    	decnum = decnum * (-1);
+    	decnum = 1 + ~decnum;
     end
     else begin
     	result[16] = 0;

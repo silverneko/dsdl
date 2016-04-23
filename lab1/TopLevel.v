@@ -1,4 +1,4 @@
-module TopLevel(sw, ledr, ledg);
+module TopLevel(sw, ledr, ledg, seg7_out);
   input  [17:0] sw;
   output [17:0] ledr;
   output [8:0]  ledg;
@@ -14,7 +14,7 @@ module TopLevel(sw, ledr, ledg);
 
   wire [11:0] c_out;
   wire overflow_out;
-  wire [39:0] seg7_out;
+  output wire [39:0] seg7_out;
 
   assign ledg[8] = overflow_out;
 
@@ -33,9 +33,13 @@ module TopLevel(sw, ledr, ledg);
     .s_out(ledr[17:6])
   );
 
+  wire [39:0] display7seg_out;
+  assign  seg7_out = ~display7seg_out;
+  wire [11:0] display7seg_in;
+  assign display7seg_in = op_in[1] ? c_out : {{6{c_out[5]}}, c_out[5:0]};
   Display7seg display7seg(
-    .a_in(c_out),
-    .s_out(seg7_out)
+    .a_in(display7seg_in),
+    .s_out(display7seg_out)
   );
 
 endmodule
