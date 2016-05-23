@@ -18,8 +18,8 @@ module Timer(clk_i, signal_i, second_o);
 
   always@(negedge clk_i) begin
     if (state == `SSTART) begin
-      if (counter == 32'd1)
-      //if (counter == 32'd50000000)
+      if (counter == 32'd1) // debug
+      //if (counter == 32'd500000) //centisecond
         begin
           counter <= 1;
           second_o <= second_o + 1;
