@@ -29,7 +29,7 @@ module Timer(clk_i, signal_i, second_o);
     end
   end
 
-  `define NOP 2'b00
+  `define K0  2'b00
   `define K1  2'b01
   `define K2  2'b10
   `define K3  2'b11
