@@ -1,16 +1,17 @@
 module Testbench();
   reg clk;
-  reg [1:0] key_press;
+  reg [2:0] key_press;
   wire [31:0] second;
 
   always #(1) clk = ~clk;
 
   Timer timer(clk, key_press, second);  
 
-  `define NOP 2'b00
-  `define K1  2'b01
-  `define K2  2'b10
-  `define K3  2'b11
+  `define NOP 3'b000
+  `define K0  3'b100
+  `define K1  3'b101
+  `define K2  3'b110
+  `define K3  3'b111
 
   initial begin
     clk = 1;

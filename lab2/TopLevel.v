@@ -1,31 +1,22 @@
-module TopLevel(key_in, s_out);
+module TopLevel(clk, key_in, s_out, lcd_func, lcd_data);
 	input [3:0] key_in;
+        // 50Mhz clock signal
+        input clk;
 	output [63:0] s_out;
-
-	reg clk;
-	always #(1) clk = ~clk;
+        output [1:0] lcd_func;
+        output [7:0] lcd_data;
 
 	wire [31:0] second;
-	wire [1:0] key_press;
-	reg [1:0] key_reg;
-	assign key_press = key_reg;
+	wire [2:0] key_press;
 
 	Timer timer(clk, key_press, second);
 	Display7seg display7seg(second, s_out);
 
-	`define K0  2'b00
-  	`define K1  2'b01
-  	`define K2  2'b10
-  	`define K3  2'b11
+        wire [127:0] show_time;
+        ShowTime showTime(second, show_time);
+        LCDDisplay lcdDisplay(clk, key_press, show_time, lcd_func, lcd_data);
 
   	// I remember TA said press means 1 to 0. Need some try.
-	always@(key_in) begin
-	  case(key_in)
-	  	4'b1110: key_reg <= `K0;
-	  	4'b1101: key_reg <= `K1;
-	  	4'b1011: key_reg <= `K2;
-	  	4'b0111: key_reg <= `K3;
-	  endcase
-	end
+        ButtonSignal buttonSignal(clk, key_in, key_press);
 
 endmodule
