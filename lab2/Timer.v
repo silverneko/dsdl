@@ -16,10 +16,12 @@ module Timer(clk_i, signal_i, second_o);
     second_o = 0;
   end
 
+  // `define CLKRATE 32'd500000
+  `define CLKRATE 32'd1
+
   always@(negedge clk_i) begin
     if (state == `SSTART) begin
-      if (counter == 32'd1) // debug
-      //if (counter == 32'd500000) //centisecond
+      if (counter == `CLKRATE)
         begin
           counter <= 1;
           second_o <= second_o + 1;
