@@ -33,7 +33,7 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
   initial begin
     state = `BUSY;
     for (i = 0; i < 31; i = i + 1) begin
-      data_c[i] = 8'b0;
+      data_c[i] = `SPACE;
     end
     en_o = 0;
     func_o_0 = 2'b00;
@@ -52,15 +52,18 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
   `define K3  3'b111
 
   `define EN_PULSE_WIDTH 100
-
+  `define SPACE 8'b00100000
+  
   always@(negedge clk_i) begin
     if (state == `IDLE) begin
       case (func_i)
+		default: begin
+		end
         `K0: begin
           for (i = 0; i < 31; i = i + 1) begin
-            data_c[i] <= 8'b0;
+            data_c[i] <= `SPACE;
           end
-          lcd_clr_state <= 2'b00;
+          lcd_clr_state <= 2'b01;
           state <= `BUSY;
         end
         `K2: begin
@@ -85,7 +88,7 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
           data_c[15] <= data_i[127:120];
           cursor_pos <= 0;
           ddram_addr <= 7'b0000000;
-          lcd_wrt_state <= 3'b000;
+          lcd_wrt_state <= 3'b001;
           state <= `BUSY;
         end
       endcase
@@ -109,6 +112,8 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
             end
             lcd_clr_cyc <= lcd_clr_cyc + 1;
           end else begin
+			data_o_0 <= 8'b0;
+			func_o_0 <= 2'b00;
             lcd_clr_state <= 2'b00;
             state <= `IDLE;
           end
@@ -121,9 +126,12 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
         end
         3'b001: begin
           if (ddram_addr == 7'h50) begin
+			data_o_1 <= 8'b0;
+			func_o_1 <= 2'b00;
             lcd_wrt_state <= 3'b000;
             state <= `IDLE;
           end else begin
+			en_o <= 1;
             func_o_1 <= 2'b00;
             data_o_1 <= {1'b1, ddram_addr};
             if (ddram_addr == 7'h0F) begin
@@ -137,7 +145,7 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
         end
         3'b010: begin
           if (lcd_wrt_cyc != 2500) begin
-            if (lcd_clr_cyc == `EN_PULSE_WIDTH) begin
+            if (lcd_wrt_cyc == `EN_PULSE_WIDTH) begin
               en_o <= 0;
             end
             lcd_wrt_cyc <= lcd_wrt_cyc + 1;
@@ -146,6 +154,7 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
           end
         end
         3'b011: begin
+		  en_o <= 1;
           func_o_1 <= 2'b10;
           data_o_1 <= data_c[cursor_pos];
           cursor_pos <= cursor_pos + 1;
@@ -154,7 +163,7 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
         end
         3'b100: begin
           if (lcd_wrt_cyc != 2500) begin
-            if (lcd_clr_cyc == `EN_PULSE_WIDTH) begin
+            if (lcd_wrt_cyc == `EN_PULSE_WIDTH) begin
               en_o <= 0;
             end
             lcd_wrt_cyc <= lcd_wrt_cyc + 1;

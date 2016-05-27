@@ -19,6 +19,8 @@ module ButtonSignal(clk_i, key_i, signal_o);
   always@(negedge clk_i) begin
     if (state == `NOP) begin
       case (key_i)
+	    default begin
+		end
         4'b1110: begin
           state <= `K0;
           signal_o <= `K0;
@@ -38,7 +40,7 @@ module ButtonSignal(clk_i, key_i, signal_o);
       endcase
     end else begin
       signal_o <= `NOP;
-      if (key_i == `NOP) begin
+      if (key_i == 4'b1111) begin
         state <= `NOP;
       end
     end

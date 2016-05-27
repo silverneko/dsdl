@@ -21,7 +21,7 @@ module Bin2dec(a_in , c_out);
     temp = decnum / 100; decnum = decnum % 100;
     result[15:12] = temp / 10; result[11:8] = temp % 10;
 
-    result[7:4] = decnum / 10; result[3:0] = temp % 10;
+    result[7:4] = decnum / 10; result[3:0] = decnum % 10;
   end
  endmodule
 

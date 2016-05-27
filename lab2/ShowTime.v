@@ -32,6 +32,7 @@ module ShowTime(second_i, data_o);
     data_o[63:56] <= `ZERO + (i % 10);
     data_o[71:64] <= `QUOTE;
     // msms
+	i = t;
     data_o[79:72] <= `ZERO + (i / 10);
     data_o[87:80] <= `ZERO + (i % 10);
     data_o[127:88] <= {5{`SPACE}};

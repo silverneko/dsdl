@@ -24,8 +24,8 @@ module Timer(clk_i, signal_i, second_o);
   `define K2  3'b110
   `define K3  3'b111
 
-  // `define CLKRATE 32'd500000
-  `define CLKRATE 32'd1
+  `define CLKRATE 32'd500000
+  //`define CLKRATE 32'd1
 
   always@(negedge clk_i) begin
     case (state)

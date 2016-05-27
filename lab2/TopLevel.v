@@ -12,6 +12,8 @@ module TopLevel(clk,
         // 50Mhz clock signal
         input clk;
 	output [63:0] s_out;
+	wire [63:0] seg_o;
+	assign s_out = ~seg_o;
         output LCD_ON, LCD_BLON, LCD_EN, LCD_RW, LCD_RS;
         output [7:0]  LCD_DATA;
 
@@ -29,7 +31,7 @@ module TopLevel(clk,
 	wire [2:0] key_press;
 
 	Timer timer(clk, key_press, second);
-	Display7seg display7seg(second, s_out);
+	Display7seg display7seg(second, seg_o);
 
         wire [127:0] show_time;
         ShowTime showTime(second, show_time);
