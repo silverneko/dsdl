@@ -29,7 +29,6 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
   reg [6:0] ddram_addr;
   integer   cursor_pos;
 
-
   initial begin
     state = `BUSY;
     for (i = 0; i < 31; i = i + 1) begin
@@ -51,14 +50,12 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
   `define K2  3'b110
   `define K3  3'b111
 
-  `define EN_PULSE_WIDTH 100
+  `define EN_PULSE_WIDTH 20
   `define SPACE 8'b00100000
   
   always@(negedge clk_i) begin
     if (state == `IDLE) begin
       case (func_i)
-		default: begin
-		end
         `K0: begin
           for (i = 0; i < 31; i = i + 1) begin
             data_c[i] <= `SPACE;
