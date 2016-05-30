@@ -26,14 +26,17 @@ module Bin2dec(a_in , c_out);
  endmodule
 
 
-module Display7seg(a_in , s_out);
+module Display7seg(a_in, b_in, type, s_out);
   input [31:0] a_in;
+  input [31:0] b_in;
+  input type;
   output [63:0] s_out; /*There will be 8 7-seg displays*/
 
+  wire [31:0] c_in;
   wire [31:0] c_out;
-
+  assign c_in = type ? b_in : a_in;
   Bin2dec bin2dec(
-  	.a_in(a_in),
+  	.a_in(c_in),
   	.c_out(c_out)
   );
 
