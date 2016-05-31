@@ -57,7 +57,7 @@ module TopLevel(clk,
 	Timer timer(slow_clk, key_press, second);
 	Settime settime(switch_in, switch_second, clk, second_tmp);
 	// I use key_press as well becasue I am lazy.....
-	Countdowner countdowner(slow_clk, second_tmp, key_press, secound_countdown);
+	Countdowner countdowner(slow_clk, second_tmp, key_press, second_countdown);
 
 	Display7seg display7seg(second, second_countdown, type_in, seg_o);
 
