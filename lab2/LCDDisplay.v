@@ -19,6 +19,7 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
 
   `define IDLE 1'b0
   `define BUSY 1'b1
+  `define SPACE 8'b00100000
 
   integer   i;
   reg       state;
@@ -51,7 +52,6 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
   `define K3  3'b111
 
   `define EN_PULSE_WIDTH 20
-  `define SPACE 8'b00100000
   
   always@(negedge clk_i) begin
     if (state == `IDLE) begin
