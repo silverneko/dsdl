@@ -18,8 +18,8 @@ module Settime(switch, switch_second, clk_i, second_o);
 
 	always@(negedge clk_i) begin
 		if (state == `SET) begin
-			second = {16'b0, switch_second[15:0]};
+                  second <= switch_second * 100;
 		end
-		state = switch;
+		state <= switch;
 	end
 endmodule
