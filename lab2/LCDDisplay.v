@@ -103,7 +103,7 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
           lcd_clr_cyc <= 0;
         end
         2'b10: begin
-          if (lcd_clr_cyc != 80000) begin
+          if (lcd_clr_cyc != 8000) begin
             if (lcd_clr_cyc == `EN_PULSE_WIDTH) begin
               en_o <= 0;
             end
@@ -141,7 +141,7 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
           end
         end
         3'b010: begin
-          if (lcd_wrt_cyc != 2500) begin
+          if (lcd_wrt_cyc != 250) begin
             if (lcd_wrt_cyc == `EN_PULSE_WIDTH) begin
               en_o <= 0;
             end
@@ -159,7 +159,7 @@ module LCDDisplay(clk_i, func_i, data_i, en_o, func_o, data_o);
           lcd_wrt_cyc <= 0;
         end
         3'b100: begin
-          if (lcd_wrt_cyc != 2500) begin
+          if (lcd_wrt_cyc != 250) begin
             if (lcd_wrt_cyc == `EN_PULSE_WIDTH) begin
               en_o <= 0;
             end

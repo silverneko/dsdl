@@ -29,15 +29,31 @@ module TopLevel(clk,
 
 	wire [31:0] second;
 	wire [2:0] key_press;
+        reg slow_clk;
+        integer slow_clk_counter;
+        
+        initial begin
+          slow_clk <= 0;
+          slow_clk_counter <= 0;
+        end
 
-	Timer timer(clk, key_press, second);
+        always@(negedge clk) begin
+          if (slow_clk_counter == 9) begin
+            slow_clk_counter <= 0;
+            slow_clk <= ~slow_clk;
+          end else begin
+            slow_clk_counter <= slow_clk_counter + 1;
+          end
+        end
+
+	Timer timer(slow_clk, key_press, second);
 	Display7seg display7seg(second, seg_o);
 
         wire [127:0] show_time;
         ShowTime showTime(second, show_time);
-        LCDDisplay lcdDisplay(clk, key_press, show_time, LCD_EN, lcd_func, lcd_data);
+        LCDDisplay lcdDisplay(slow_clk, key_press, show_time, LCD_EN, lcd_func, lcd_data);
 
   	// I remember TA said press means 1 to 0. Need some try.
-        ButtonSignal buttonSignal(clk, key_in, key_press);
+        ButtonSignal buttonSignal(slow_clk, key_in, key_press);
 
 endmodule
