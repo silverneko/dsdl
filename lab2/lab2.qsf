@@ -1,0 +1,166 @@
+# -------------------------------------------------------------------------- #
+#
+# Copyright (C) 1991-2013 Altera Corporation
+# Your use of Altera Corporation's design tools, logic functions 
+# and other software and tools, and its AMPP partner logic 
+# functions, and any output files from any of the foregoing 
+# (including device programming or simulation files), and any 
+# associated documentation or information are expressly subject 
+# to the terms and conditions of the Altera Program License 
+# Subscription Agreement, Altera MegaCore Function License 
+# Agreement, or other applicable license agreement, including, 
+# without limitation, that your use is for the sole purpose of 
+# programming logic devices manufactured by Altera and sold by 
+# Altera or its authorized distributors.  Please refer to the 
+# applicable agreement for further details.
+#
+# -------------------------------------------------------------------------- #
+#
+# Quartus II 64-Bit
+# Version 13.0.1 Build 232 06/12/2013 Service Pack 1 SJ Web Edition
+# Date created = 18:26:43  May 25, 2016
+#
+# -------------------------------------------------------------------------- #
+#
+# Notes:
+#
+# 1) The default values for assignments are stored in the file:
+#		lab2_assignment_defaults.qdf
+#    If this file doesn't exist, see file:
+#		assignment_defaults.qdf
+#
+# 2) Altera recommends that you do not modify this file. This
+#    file is updated automatically by the Quartus II software
+#    and any changes you make may be lost or overwritten.
+#
+# -------------------------------------------------------------------------- #
+
+
+set_global_assignment -name FAMILY "Cyclone II"
+set_global_assignment -name DEVICE EP2C70F896C6
+set_global_assignment -name TOP_LEVEL_ENTITY TopLevel
+set_global_assignment -name ORIGINAL_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "18:26:43  MAY 25, 2016"
+set_global_assignment -name LAST_QUARTUS_VERSION "13.0 SP1"
+set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
+set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
+set_global_assignment -name MAX_CORE_JUNCTION_TEMP 85
+set_global_assignment -name ERROR_CHECK_FREQUENCY_DIVISOR 1
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+set_global_assignment -name STRATIX_DEVICE_IO_STANDARD "3.3-V LVTTL"
+set_location_assignment PIN_G3 -to LCD_BLON
+set_location_assignment PIN_E1 -to LCD_DATA[0]
+set_location_assignment PIN_B2 -to LCD_DATA[7]
+set_location_assignment PIN_C3 -to LCD_DATA[6]
+set_location_assignment PIN_C2 -to LCD_DATA[5]
+set_location_assignment PIN_C1 -to LCD_DATA[4]
+set_location_assignment PIN_D3 -to LCD_DATA[3]
+set_location_assignment PIN_D2 -to LCD_DATA[2]
+set_location_assignment PIN_E3 -to LCD_DATA[1]
+set_location_assignment PIN_E2 -to LCD_EN
+set_location_assignment PIN_F1 -to LCD_ON
+set_location_assignment PIN_F2 -to LCD_RS
+set_location_assignment PIN_F3 -to LCD_RW
+set_location_assignment PIN_AD15 -to clk
+set_location_assignment PIN_U29 -to key_in[3]
+set_location_assignment PIN_U30 -to key_in[2]
+set_location_assignment PIN_T28 -to key_in[1]
+set_location_assignment PIN_T29 -to key_in[0]
+set_global_assignment -name VERILOG_FILE ../../../Users/silvernegi/Documents/dsdl/lab2/Settime.v
+set_global_assignment -name VERILOG_FILE ../../../Users/silvernegi/Documents/dsdl/lab2/Countdowner.v
+set_global_assignment -name VERILOG_FILE ../../../Users/silvernegi/Documents/dsdl/lab2/ButtonSignal.v
+set_global_assignment -name VERILOG_FILE ../../../Users/silvernegi/Documents/dsdl/lab2/TopLevel.v
+set_global_assignment -name VERILOG_FILE ../../../Users/silvernegi/Documents/dsdl/lab2/Timer.v
+set_global_assignment -name VERILOG_FILE ../../../Users/silvernegi/Documents/dsdl/lab2/ShowTime.v
+set_global_assignment -name VERILOG_FILE ../../../Users/silvernegi/Documents/dsdl/lab2/seg7.v
+set_global_assignment -name VERILOG_FILE ../../../Users/silvernegi/Documents/dsdl/lab2/LCDDisplay.v
+set_global_assignment -name VERILOG_FILE ../../../Users/silvernegi/Documents/dsdl/lab2/display.v
+set_location_assignment PIN_L8 -to type_in
+set_location_assignment PIN_L7 -to switch_in
+set_location_assignment PIN_AA23 -to switch_second[0]
+set_location_assignment PIN_AB26 -to switch_second[1]
+set_location_assignment PIN_AB25 -to switch_second[2]
+set_location_assignment PIN_AC27 -to switch_second[3]
+set_location_assignment PIN_AC26 -to switch_second[4]
+set_location_assignment PIN_AC24 -to switch_second[5]
+set_location_assignment PIN_AC23 -to switch_second[6]
+set_location_assignment PIN_AD25 -to switch_second[7]
+set_location_assignment PIN_AD24 -to switch_second[8]
+set_location_assignment PIN_AE27 -to switch_second[9]
+set_location_assignment PIN_W5 -to switch_second[10]
+set_location_assignment PIN_V10 -to switch_second[11]
+set_location_assignment PIN_U9 -to switch_second[12]
+set_location_assignment PIN_T9 -to switch_second[13]
+set_location_assignment PIN_L5 -to switch_second[14]
+set_location_assignment PIN_L4 -to switch_second[15]
+set_location_assignment PIN_G2 -to s_out[63]
+set_location_assignment PIN_G1 -to s_out[62]
+set_location_assignment PIN_H3 -to s_out[61]
+set_location_assignment PIN_H2 -to s_out[60]
+set_location_assignment PIN_H1 -to s_out[59]
+set_location_assignment PIN_J2 -to s_out[58]
+set_location_assignment PIN_J1 -to s_out[57]
+set_location_assignment PIN_K3 -to s_out[56]
+set_location_assignment PIN_K2 -to s_out[55]
+set_location_assignment PIN_E4 -to s_out[54]
+set_location_assignment PIN_F4 -to s_out[53]
+set_location_assignment PIN_G4 -to s_out[52]
+set_location_assignment PIN_H8 -to s_out[51]
+set_location_assignment PIN_H7 -to s_out[50]
+set_location_assignment PIN_H4 -to s_out[49]
+set_location_assignment PIN_H6 -to s_out[48]
+set_location_assignment PIN_K6 -to s_out[47]
+set_location_assignment PIN_K5 -to s_out[46]
+set_location_assignment PIN_K4 -to s_out[45]
+set_location_assignment PIN_K1 -to s_out[44]
+set_location_assignment PIN_L3 -to s_out[43]
+set_location_assignment PIN_L2 -to s_out[42]
+set_location_assignment PIN_L1 -to s_out[41]
+set_location_assignment PIN_M3 -to s_out[40]
+set_location_assignment PIN_L6 -to s_out[39]
+set_location_assignment PIN_M2 -to s_out[38]
+set_location_assignment PIN_M1 -to s_out[37]
+set_location_assignment PIN_N3 -to s_out[36]
+set_location_assignment PIN_N2 -to s_out[35]
+set_location_assignment PIN_P3 -to s_out[34]
+set_location_assignment PIN_P2 -to s_out[33]
+set_location_assignment PIN_P1 -to s_out[32]
+set_location_assignment PIN_M4 -to s_out[31]
+set_location_assignment PIN_M6 -to s_out[30]
+set_location_assignment PIN_M7 -to s_out[29]
+set_location_assignment PIN_M8 -to s_out[28]
+set_location_assignment PIN_N7 -to s_out[27]
+set_location_assignment PIN_N10 -to s_out[26]
+set_location_assignment PIN_P4 -to s_out[25]
+set_location_assignment PIN_P6 -to s_out[24]
+set_location_assignment PIN_AC19 -to s_out[23]
+set_location_assignment PIN_AE19 -to s_out[22]
+set_location_assignment PIN_AB19 -to s_out[21]
+set_location_assignment PIN_AB18 -to s_out[20]
+set_location_assignment PIN_AG4 -to s_out[19]
+set_location_assignment PIN_AH5 -to s_out[18]
+set_location_assignment PIN_AF7 -to s_out[17]
+set_location_assignment PIN_AE7 -to s_out[16]
+set_location_assignment PIN_AC17 -to s_out[15]
+set_location_assignment PIN_AD17 -to s_out[14]
+set_location_assignment PIN_AF17 -to s_out[13]
+set_location_assignment PIN_AE17 -to s_out[12]
+set_location_assignment PIN_AG16 -to s_out[11]
+set_location_assignment PIN_AF16 -to s_out[10]
+set_location_assignment PIN_AE16 -to s_out[9]
+set_location_assignment PIN_AG13 -to s_out[8]
+set_location_assignment PIN_AF12 -to s_out[7]
+set_location_assignment PIN_AD12 -to s_out[6]
+set_location_assignment PIN_AD11 -to s_out[5]
+set_location_assignment PIN_AF10 -to s_out[4]
+set_location_assignment PIN_AD10 -to s_out[3]
+set_location_assignment PIN_AH9 -to s_out[2]
+set_location_assignment PIN_AF9 -to s_out[1]
+set_location_assignment PIN_AE8 -to s_out[0]
+
+set_global_assignment -name USE_CONFIGURATION_DEVICE ON
+set_global_assignment -name CYCLONEII_RESERVE_NCEO_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_global_assignment -name RESERVE_ASDO_AFTER_CONFIGURATION "USE AS REGULAR IO"
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
