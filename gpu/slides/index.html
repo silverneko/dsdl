@@ -33,7 +33,7 @@
                               <h2>How GPU works</h2>
                             </section>
                             <section>
-                              <p>Dedicated hardware. e.g. vertex shader, pixel shader, etc</p>
+                              <p>Dedicated hardware for rendering. e.g. vertex shader, pixel shader, etc</p>
                               <p>Fixed-function (same function executes many times)</p>
                             </section>
                             <section>
@@ -49,13 +49,12 @@
                           <section>
                             <section>
                               <h2>GPGPU</h2>
-                              <p>General Purpose GPU</p>
+                              <p>General Purpose computing on GPU</p>
                             </section>
                             <section>
-                              <ul>
-                                <li>Unified shader unit</li>
-                                <li>And it is programmable</li>
-                              </ul>
+                              <p>Streaming Multiprocessor</p>
+                              <p>Unified shader unit (no dedicated shader)</p>
+                              <p>And it is programmable</p>
                             </section>
                             <section>
                               <img src="img/figa.jpg">
@@ -88,7 +87,7 @@
 
                           <section>
                             <section>
-                              <h2>More about GPU</h2>
+                              <h2>GPGPU Programming</h2>
                             </section>
                             <section>
                               <img src="img/gp100_block_diagram-1-768x452.png">
@@ -99,7 +98,6 @@
                               <p>P100 SM</p>
                             </section>
                             <section>
-                              <p>SM = Streaming Multiprocessor</p>
                               <p>SIMT = Single Instruction Multiple Thread</p>
                               <p>Warp = 32 threads executes in the same time</p>
                               <p>Data Parallel is good (Why ? "Eating philosopher problem")</p>
@@ -108,13 +106,63 @@
 
                           <section>
                             <section>
-                              <h2>CUDA Demo</h2>
+                              <h2>Demo</h2>
+                            </section>
+                            <section>
+                              <pre><code class="cpp" data-trim>
+int main(int argc, char * argv[]) {
+  const int N = 10000;
+  int * A, * B;
+  A = new int[N];
+  B = new int[N];
+
+  // Do something with A and B ...
+
+  // Calculate A = A + B (add two vectors)
+  for (int i = 0; i &lt; N; ++i) {
+    A[i] += B[i];
+  }
+
+  delete A;
+  delete B;
+  return 0;
+}
+                              </code></pre>
+                            </section>
+                            <section>
+                              <pre><code class="cpp" data-trim>
+__global__ void kernel1(int * A, int * B, int N) {
+  int id = blockIdx.x * blockDim.x + threadIdx.x;
+  if (id >= N) return;
+  A[id] += B[id];
+}
+
+int main(int argc, char * argv[]) {
+  const int N = 10000;
+  int * A, * B;
+  cudaMallocManaged(&A, sizeof(int) * N, cudaMemAttachGlobal);
+  cudaMallocManaged(&B, sizeof(int) * N, cudaMemAttachGlobal);
+
+  // Do something with A and B ...
+
+  // Calculate A = A + B (add two vectors)
+  int dimBlock = 32, dimGrid = N / dimBlock + 1;
+  kernel1<<&lt;dimGrid, dimBlock>>>(A, B, N);
+
+  cudaFree(A);
+  cudaFree(B);
+  return 0;
+}
+                              </code></pre>
+                            </section>
+                            <section>
+                              <a href="https://www.youtube.com/watch?v=-P28LKWTzrI">Mythbusters Demo GPU versus CPU</a>
                             </section>
                           </section>
 
                           <section>
                             <section>
-                              <a href="https://www.youtube.com/watch?v=-P28LKWTzrI">Mythbusters Demo GPU versus CPU</a>
+                              <h2>End</h2>
                             </section>
                           </section>
 			</div>
