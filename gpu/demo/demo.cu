@@ -28,14 +28,13 @@ int main(int argc, char * argv[]) {
   cudaMallocManaged(&A, sizeof(float) * N, cudaMemAttachGlobal);
 #endif
 
-  // Calculate A[i] = sqrt( pow(PI, i) ) (add two vectors)
+  // Calculate A[i] = sqrtf( powf(PI, i) )
 #ifdef CPU_DEMO
   for (int i = 0; i < N; ++i) {
     A[i] = sqrtf( powf(3.1415926f, i) );
   }
 #else
-  int dimBlock = 64;
-  int dimGrid = (N + dimBlock - 1) / dimBlock;
+  int dimBlock = 64, dimGrid = (N + dimBlock - 1) / dimBlock;
   kernel<<<dimGrid, dimBlock>>>(A, N);
   cudaDeviceSynchronize();
 #endif
