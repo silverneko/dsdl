@@ -102,6 +102,16 @@
                               <p>Warp = 32 threads executes in the same time</p>
                               <p>Data Parallel is good (Why ? "Eating philosopher problem")</p>
                             </section>
+                            <section>
+                              <h3>CUDA Programing Model</h3>
+                              <p>A grid has many blocks</p>
+                              <p>A block has many threads</p>
+                              <p>#thread = #block x #blockDimension</p>
+                              <p>Driver and hardware do the magic to partition and schedule the work</p>
+                            </section>
+                            <section>
+                              <img src="img/figa-circle.jpg">
+                            </section>
                           </section>
 
                           <section>
@@ -109,51 +119,59 @@
                               <h2>Demo</h2>
                             </section>
                             <section>
+                              Original code:
                               <pre><code class="cpp" data-trim>
 int main(int argc, char * argv[]) {
-  const int N = 10000;
-  int * A, * B;
-  A = new int[N];
-  B = new int[N];
+  const int N = 10000000;
+  float * A;
+  A = new float[N];
 
-  // Do something with A and B ...
-
-  // Calculate A = A + B (add two vectors)
+  // Calculate A[i] = sqrtf( powf(PI, i) )
   for (int i = 0; i &lt; N; ++i) {
-    A[i] += B[i];
+    A[i] = sqrtf( powf(3.1415926f, i) );
   }
-
   delete A;
-  delete B;
   return 0;
 }
                               </code></pre>
                             </section>
                             <section>
+                              Use CUDA:
                               <pre><code class="cpp" data-trim>
-__global__ void kernel1(int * A, int * B, int N) {
-  int id = blockIdx.x * blockDim.x + threadIdx.x;
-  if (id >= N) return;
-  A[id] += B[id];
+__global__
+void kernel(float * A, int N) {
+  int tid = blockIdx.x * blockDim.x + threadIdx.x;
+  if (tid >= N) return;
+  A[tid] = sqrtf( powf(3.1415926f, tid) );
 }
 
 int main(int argc, char * argv[]) {
-  const int N = 10000;
-  int * A, * B;
-  cudaMallocManaged(&A, sizeof(int) * N, cudaMemAttachGlobal);
-  cudaMallocManaged(&B, sizeof(int) * N, cudaMemAttachGlobal);
+  const int N = 10000000;
+  float * A;
 
-  // Do something with A and B ...
+  cudaMallocManaged(&A, sizeof(float) * N, cudaMemAttachGlobal);
 
-  // Calculate A = A + B (add two vectors)
-  int dimBlock = 32, dimGrid = N / dimBlock + 1;
-  kernel1<<&lt;dimGrid, dimBlock>>>(A, B, N);
+  // Calculate A[i] = sqrtf( powf(PI, i) )
+  int dimBlock = 64, dimGrid = (N + dimBlock - 1) / dimBlock;
+  kernel&lt;&lt;&lt;dimGrid, dimBlock>>>(A, N);
 
+  cudaDeviceSynchronize();
   cudaFree(A);
-  cudaFree(B);
   return 0;
 }
                               </code></pre>
+                            </section>
+                            <section>
+                              Results:
+                              <pre><code class="sh" data-trim>
+./demo_cpu
+Time (microsecond): 434089
+./demo_gpu
+Time (microsecond): 23493
+./demo_gpu_fast_math
+Time (microsecond): 22066
+                              </code></pre>
+                              wow~ such speed~ very gpu~
                             </section>
                             <section>
                               <a href="https://www.youtube.com/watch?v=-P28LKWTzrI">Mythbusters Demo GPU versus CPU</a>
