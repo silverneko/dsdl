@@ -25,7 +25,7 @@ int main(int argc, char * argv[]) {
 #ifdef CPU_DEMO
   A = new float[N];
 #else
-  cudaMallocManaged(&A, sizeof(float) * N, cudaMemAttachGlobal);
+  cudaMallocManaged(&A, sizeof(float) * N);
 #endif
 
   // Calculate A[i] = sqrtf( powf(PI, i) )
