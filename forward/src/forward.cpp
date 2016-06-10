@@ -1,6 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <iostream>
+#include <fstream>
+#include "minterm.h"
+
+using namespace std;
 #define statmax 256
 #define powermax 8
 
@@ -124,6 +129,31 @@ void buildkmapJS(char kmap1[statmax][2], char kmap2[statmax][2], char stat_table
     }
 }
 
+void buildqmfile(char kmap[statmax][2], int power, int stat_num)
+{
+    int termNum = 0;
+    for(int i = 0 ; i < stat_num ; i++){
+        for(int j = 0 ; j < 2 ; j++){
+            if(kmap[i][j] != '0') termNum ++;
+        }
+    }
+    fstream fs("tmp", fstream::out);
+    fs << power + 1 << endl;
+    fs << termNum << endl;
+    for(int i = 0 ; i < 2 ; i++)
+    {
+        for(int j = 0 ; j < stat_num ; j++)
+        {
+            if(kmap[j][i] != '0')
+            {
+                fs << i << bintable[j] << " " << kmap[j][i] << endl;
+            }
+        }
+    }
+    fs.flush();
+    fs.close();
+
+}
 int main(void)
 {
     int type; // true means mealy machine , moore otherwise
@@ -170,9 +200,10 @@ int main(void)
             char kmap[statmax][2];
             buildkmapDT(kmap, stat_table, fftype[i], power, i, stat_num);
 
-            for(int j = 0 ; j < stat_num; j++) printf("state %s , %c|%c\n", bintable[j], kmap[j][0], kmap[j][1]);
+            //for(int j = 0 ; j < stat_num; j++) printf("state %s , %c|%c\n", bintable[j], kmap[j][0], kmap[j][1]);
 
-            //remain Q-M algorithm
+            buildqmfile(kmap, power, stat_num);
+            qm("tmp");
         }
         else
         {
@@ -181,7 +212,10 @@ int main(void)
 
             for(int j = 0 ; j < stat_num ; j++) printf("stat %s , %c%c|%c%c\n", bintable[j], kmap1[j][0], kmap2[j][0], kmap1[j][1], kmap2[j][1]);
 
-            //remain Q-M algorithm
+            buildqmfile(kmap1, power, stat_num);
+            qm("tmp");
+            buildqmfile(kmap2, power, stat_num);
+            qm("tmp");
         }
     }
 
