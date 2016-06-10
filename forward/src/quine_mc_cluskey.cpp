@@ -1,6 +1,3 @@
-/*Filename: main.cpp
-desc:main method for minlogic
-*/
 #include "minterm.h"
 #include <vector>
 #include <cstdlib>
@@ -80,7 +77,7 @@ vector<minterm> solveCoveringTable(vector<minterm> allMinterms, vector<minterm> 
 
 void printPrimeImplicants(vector<minterm> pi)
 {
-	string result = "F = ";
+	string result;
 	for(unsigned int i = 0; i < pi.size(); i++)
 	{
 		result += pi[i].toString();
@@ -88,8 +85,8 @@ void printPrimeImplicants(vector<minterm> pi)
 		if(i != pi.size()-1)
 			result += " + ";
 	}
-	printf(result.c_str());
-	printf("\n");
+	fstream fs("qm_out", fstream::out | fstream::trunc);
+	fs << result << endl;
 }
 
 
@@ -216,17 +213,10 @@ vector<minterm> removeDontCares(vector<minterm>& allMinterms, vector<minterm>& d
 	return result;
 }
 
-int qm(char file[10])
+int qm(char* file)
 {
-	/*if(argc != 2)
-	{
-		cout << "Usage: " << argv[0] << " filename" << endl;
-		exit(1);
-	}
 	//check if the input minterm file exists
-	ifstream fin(argv[1]);*/
 	ifstream fin(file);
-
 	if(!fin)
 	{
 		cout << "Minterm (input) file " << file << " not found." << endl;
@@ -332,8 +322,6 @@ int qm(char file[10])
 
 	vector<minterm> essPI = solveCoveringTable(allMinterms, dontCares, primeImplicants);
 	printPrimeImplicants(essPI);
-	printf("Prime Implicant Count: %d \n", essPI.size());
-	printf("Literal Count: %d \n", countLiterals(essPI));
 }
 
 int contains(minterm& term, vector<minterm>& mintermList)

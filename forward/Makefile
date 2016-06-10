@@ -1,18 +1,17 @@
 CC         = g++
-OBJS       = src/main.o src/minterm.o src/forward.o
+OBJS       = src/quine_mc_cluskey.o src/minterm.o src/forward.o
 
-.cc.o:
-	$(CC) -g -c $*.cc -o $@ -std=c++11 -O2
 .cpp.o:
 	$(CC) -g -c $*.cpp -o $@ -std=c++11 -O2
+
 all: forward
 
 forward: $(OBJS)
 	$(CC) -o $@ $(OBJS) -std=c++11 -O2
 
 clean : 
-	rm -f *.o qm
+	rm -f src/*.o
 
-src/main.o: src/main.cpp
-src/minterm.o: src/minterm.cc
+src/quine_mc_cluskey.o: src/quine_mc_cluskey.cpp
+src/minterm.o: src/minterm.cpp
 src/forward.o: src/forward.cpp

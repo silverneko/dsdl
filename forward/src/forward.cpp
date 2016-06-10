@@ -46,7 +46,6 @@ void BuildBintable(int stat_num, int power)
 
 void binstat(char stat_table[statmax+1][powermax+1], int table[statmax][4], int stat_num, int power)
 {
-    printf("power = %d\n" , power);
     for(int i = 0 ; i < stat_num ; i++)
     {
         strncpy(stat_table[i], bintable[(table[i][0])], power);
@@ -129,7 +128,7 @@ void buildkmapJS(char kmap1[statmax][2], char kmap2[statmax][2], char stat_table
     }
 }
 
-void buildqmfile(char kmap[statmax][2], int power, int stat_num)
+void buildqmfile(char kmap[statmax][2], int power, int stat_num, int type)
 {
     int termNum = 0;
     for(int i = 0 ; i < stat_num ; i++){
@@ -137,7 +136,7 @@ void buildqmfile(char kmap[statmax][2], int power, int stat_num)
             if(kmap[i][j] != '0') termNum ++;
         }
     }
-    fstream fs("tmp", fstream::out);
+	fstream fs("tmp", fstream::out | fstream::trunc);
     fs << power + 1 << endl;
     fs << termNum << endl;
     for(int i = 0 ; i < 2 ; i++)
@@ -146,21 +145,35 @@ void buildqmfile(char kmap[statmax][2], int power, int stat_num)
         {
             if(kmap[j][i] != '0')
             {
-                fs << i << bintable[j] << " " << kmap[j][i] << endl;
+				if(type)
+					fs << i << bintable[j] << " " << kmap[j][i] << endl;
+				else
+					fs << bintable[j] << " " << kmap[j][i] << endl;
             }
         }
     }
     fs.flush();
     fs.close();
-
 }
+
+
+void get_qm_res(const char* out) {
+	ifstream qm_out("qm_out");
+	string qm_res;
+	getline(qm_out, qm_res);
+	printf("%s = %s\n", out, qm_res.c_str());
+	qm_out.close();
+}
+
 int main(void)
 {
+	printf("DSDL_2016 Final Project : Forward Design\n\n");
     int type; // true means mealy machine , moore otherwise
     int stat_num, input_table[statmax][4] = {0};
-
     //input format equals to example code
+	printf("Enter the type of state machine:\n");
     scanf("%d", &type);
+	printf("Enter the number of states:\n");
     scanf("%d", &stat_num);
     int power = 0;
     if(stat_num < 2 || stat_num > statmax || check_statnum(stat_num, &power))
@@ -168,6 +181,7 @@ int main(void)
         printf("%d is not the power of 2 or smaller than 2 or larger than %d\n", stat_num, statmax);
         return -1;
     }
+	printf("Enter the state input table:\n");
     for(int i = 0 ; i < stat_num ; i++)
     {
         scanf("%d %d %d", &input_table[i][0],&input_table[i][1],&input_table[i][2]);
@@ -180,44 +194,74 @@ int main(void)
 
     //set flip-flop type.
     //Type: D, T, J(K), S(R)
-    printf("Enter the type of flip-flops\n");
+    printf("Enter the type of flip-flops:\n");
     char fftype[powermax];
     scanf("%s", fftype);
 
     char stat_table[statmax + 1][powermax + 1];
     memset(stat_table, 0, sizeof(char) * (statmax + 1) * (powermax + 1) );
     binstat(stat_table, input_table, stat_num, power);
-
-    printf("binary state transition table \n");
+	printf("-----------------------------\n");
+    printf("Binary State Transition Table\n");
+	printf("input       0 1\n");
     for(int i = 0 ; i < stat_num ; i++)
-        printf("stat %s | %s\n", bintable[i], stat_table[i]);
-
+        printf("state %s | %s\n", bintable[i], stat_table[i]);
+	printf("-----------------------------\n");
+	
+	printf("Output Table\n");
+	printf("input      0 | 1\n");
+	char out_kmap[statmax][2];
+	for(int i = 0; i < stat_num; i++)
+	{
+		if(type)
+		{
+			out_kmap[i][0] = input_table[i][2] == 1 ?'1':'0';
+			out_kmap[i][1] = input_table[i][3] == 1 ?'1':'0';
+			printf("state %s | %c | %c\n", bintable[i], out_kmap[i][0], out_kmap[i][1]);
+		}
+		else
+		{
+			out_kmap[i][0] = input_table[i][2] == 1 ?'1':'0';
+			out_kmap[i][1] = '0'; //simplify for building qmfile
+			printf("state %s | %c\n", bintable[i], out_kmap[i][0]);
+		}
+	}
+	buildqmfile(out_kmap, power, stat_num, type);
+	qm("tmp");
+	get_qm_res("out");
+	printf("-----------------------------\n");
+	
     for(int i = 0 ; i < power ; i++)
     {
-        printf("%c-flipflop %d kmap\n", fftype[i] ,i);
+		printf("Flipflop%d: %c-flipflop K-map\n", i, fftype[i]);
         if(fftype[i] == 'D' || fftype[i] == 'T')
         {
             char kmap[statmax][2];
             buildkmapDT(kmap, stat_table, fftype[i], power, i, stat_num);
-
-            //for(int j = 0 ; j < stat_num; j++) printf("state %s , %c|%c\n", bintable[j], kmap[j][0], kmap[j][1]);
-
-            buildqmfile(kmap, power, stat_num);
+			printf("input      0 | 1\n");
+			for(int j = 0 ; j < stat_num; j++)
+				printf("state %s | %c | %c\n", bintable[j], kmap[j][0], kmap[j][1]);\
+            buildqmfile(kmap, power, stat_num, type);
             qm("tmp");
+			get_qm_res(&fftype[i]);
         }
         else
         {
             char kmap1[statmax][2], kmap2[statmax][2];
             buildkmapJS(kmap1, kmap2, stat_table, fftype[i], power, i, stat_num);
-
-            for(int j = 0 ; j < stat_num ; j++) printf("stat %s , %c%c|%c%c\n", bintable[j], kmap1[j][0], kmap2[j][0], kmap1[j][1], kmap2[j][1]);
-
-            buildqmfile(kmap1, power, stat_num);
+			printf("input       0 |  1\n");
+			for(int j = 0 ; j < stat_num ; j++)
+				printf("state %s | %c%c | %c%c\n", bintable[j], kmap1[j][0], kmap2[j][0], kmap1[j][1], kmap2[j][1]);
+            buildqmfile(kmap1, power, stat_num, type);
             qm("tmp");
-            buildqmfile(kmap2, power, stat_num);
+			(fftype[i] == 'S') ? get_qm_res("S") : get_qm_res("J");
+            buildqmfile(kmap2, power, stat_num, type);
             qm("tmp");
+			(fftype[i] == 'S') ? get_qm_res("R") : get_qm_res("K");
         }
+		printf("-----------------------------\n");
     }
-
-
+	if(remove("tmp") != 0 || remove("qm_out") != 0)
+		printf("Fail to delete file\n");
+	return 0;
 }
