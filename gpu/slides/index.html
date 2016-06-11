@@ -149,8 +149,7 @@ void kernel(float * A, int N) {
 int main(int argc, char * argv[]) {
   const int N = 10000000;
   float * A;
-
-  cudaMallocManaged(&A, sizeof(float) * N, cudaMemAttachGlobal);
+  cudaMallocManaged(&A, sizeof(float) * N);
 
   // Calculate A[i] = sqrtf( powf(PI, i) )
   int dimBlock = 64, dimGrid = (N + dimBlock - 1) / dimBlock;
