@@ -44,13 +44,20 @@ void build_bintable(int stat_num, int power)
 }
 
 
-void bin_to_stat(char stat_table[statmax+1][powermax+1], int table[statmax][4], int stat_num, int power)
+void bin_to_stat(char stat_table[statmax+1][powermax+1], int table[statmax][2], int stat_num, int power)
 {
     for(int i = 0 ; i < stat_num ; i++)
     {
         strncpy(stat_table[i], bintable[(table[i][0])], power);
         strncpy(stat_table[i] + power, bintable[(table[i][1])], power);
     }
+}
+
+void print_stat(char* stat, int power)
+{
+	for(int i = 0; i < power; i++)
+		printf("%c", stat[i]);
+	printf(" | %s", stat + power);
 }
 
 //For D,T flipflop
@@ -156,11 +163,14 @@ void get_qm_res(const char* out) {
     qm_out.close();
 }
 
+
+
 int main(void)
 {
     printf("DSDL_2016 Final Project : Forward Design\n\n");
     int type; // true means mealy machine , moore otherwise
-    int stat_num, input_table[statmax][4] = {0};
+    int stat_num, input_table[statmax][2] = {0};
+	char out_kmap[statmax][2] = {0};
     //input format equals to example code
     printf("Enter the type of state machine:(0 for moore;1 for mealy)\n");
     scanf("%d", &type);
@@ -175,7 +185,7 @@ int main(void)
     power = get_power(stat_num, power);
     printf("Enter the state input table:\n");
     for(int i = 0 ; i < stat_num ; i++)
-        scanf("%d %d %d %d", &input_table[i][0],&input_table[i][1],&input_table[i][2],&input_table[i][3]);
+		scanf("%d %d %c %c", &input_table[i][0],&input_table[i][1], &out_kmap[i][0], &out_kmap[i][1]);
 
     build_bintable(stat_num, power);
 
@@ -190,20 +200,17 @@ int main(void)
     bin_to_stat(stat_table, input_table, stat_num, power);
     printf("-----------------------------\n");
     printf("Binary State Transition Table\n");
-    printf("input       0 1\n");
     for(int i = 0 ; i < stat_num ; i++)
-        printf("state %s | %s\n", bintable[i], stat_table[i]);
+	{
+		printf("state %s | ", bintable[i]);
+		print_stat(stat_table[i], power);
+		printf("\n");
+	}
     printf("-----------------------------\n");
     
     printf("Output Table\n");
-    printf("input      0 | 1\n");
-    char out_kmap[statmax][2];
     for(int i = 0; i < stat_num; i++)
-    {
-        out_kmap[i][0] = input_table[i][2] == 1 ?'1':'0';
-        out_kmap[i][1] = input_table[i][3] == 1 ?'1':'0';
         printf("state %s | %c | %c\n", bintable[i], out_kmap[i][0], out_kmap[i][1]);
-    }
     build_qm_file(out_kmap, power, stat_num);
     qm("tmp");
     get_qm_res("out");
@@ -216,18 +223,16 @@ int main(void)
         {
             char kmap[statmax][2];
             build_kmap_DT(kmap, stat_table, fftype[i], power, i, stat_num);
-            printf("input      0 | 1\n");
             for(int j = 0 ; j < stat_num; j++)
                 printf("state %s | %c | %c\n", bintable[j], kmap[j][0], kmap[j][1]);\
             build_qm_file(kmap, power, stat_num);
             qm("tmp");
-            get_qm_res(&fftype[i]);
+			get_qm_res((fftype[i] == 'D')? "D": "T");
         }
         else
         {
             char kmap1[statmax][2], kmap2[statmax][2];
             build_kmap_JS(kmap1, kmap2, stat_table, fftype[i], power, i, stat_num);
-            printf("input       0 |  1\n");
             for(int j = 0 ; j < stat_num ; j++)
                 printf("state %s | %c%c | %c%c\n", bintable[j], kmap1[j][0], kmap2[j][0], kmap1[j][1], kmap2[j][1]);
             build_qm_file(kmap1, power, stat_num);
